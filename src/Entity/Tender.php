@@ -3,12 +3,16 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Traits\Timestamps;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TenderRepository")
  */
 class Tender
 {
+
+    use Timestamps;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

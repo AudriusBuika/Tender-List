@@ -16,6 +16,7 @@ class TenderFixtures extends Fixture
             $tender = new Tender();
             $tender->setTitle($faker->sentence(mt_rand(1,3)));
             $tender->setDescription($faker->sentence(mt_rand(20,60)));
+            $tender->updatedTimestamps();
             $manager->persist($tender);
         }
 
