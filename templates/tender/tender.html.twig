@@ -6,28 +6,36 @@
 {% block body%}
 <div ng-controller="tenderListController">
     <h1>Tender List</h1>
-
-<div class="row">
-    <div ng-repeat="tender in tenders">
-        <div class="card" style="margin: 10px">
+    <div class="card" style="margin: 10px">
+        <div class="card-body" style="width:100%">
+            <h5 class="card-title">Create Tender</h5>
             <div class="card-body" style="width:100%">
-                <h5 class="card-title">[[ tender.title ]]</h5>
-                <p class="card-text">[[ tender.description ]]</p>
-                <button ng-click="editForm = !editForm">Edit</button>
-                <a href="#" class="card-link" ng-click="Delete([[ tender.id ]])">Delete</a>
-                <div class="card-body" style="width:100%" ng-show="editForm">
-                    <div>
-                        <input type="hidden" value="[[ tender.id ]]" ng-model="tender.title" />
-                        <input type="text" value="[[ tender.title ]]" ng-model="tender.description" style="margin-bottom: 10px" /><br/>
-                        <textarea rows="4" cols="50">[[ tender.description ]]</textarea><br/>
-                        <button ng-click="Update([[ tender.id ]])">Update</button>
+                <div>
+                    <input type="text" ng-model="createTitle" style="margin-bottom: 10px" placeholder="Title" /><br/>
+                    <textarea ng-model="createDescription" rows="4" cols="50" placeholder="Description"></textarea><br/>
+                    <button ng-click="Create()">Create</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div ng-repeat="tender in tenders">
+            <div class="card" style="margin: 10px">
+                <div class="card-body" style="width:100%">
+                    <h5 class="card-title">[[ tender.title ]]</h5>
+                    <p class="card-text">[[ tender.description ]]</p>
+                    <button ng-click="editForm = !editForm">Edit</button>
+                    <a href="#" class="card-link" ng-click="Delete([[ tender.id ]])">Delete</a>
+                    <div class="card-body" style="width:100%" ng-show="editForm">
+                        <div>
+                            <input type="text" ng-value="tender.title" ng-model="title" style="margin-bottom: 10px" /><br/>
+                            <textarea ng-model="description" rows="4" cols="50" ng-value="tender.description"></textarea><br/>
+                            <button ng-click="Update([[ tender.id ]])">Update</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-
 </div>
 {% endblock %}

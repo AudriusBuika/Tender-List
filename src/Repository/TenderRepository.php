@@ -19,6 +19,19 @@ class TenderRepository extends ServiceEntityRepository
         parent::__construct($registry, Tender::class);
     }
 
+    /**
+     * @param $facebookId
+     * @return array
+     */
+    public function findTenders(int $max):array
+    {
+        return $this->createQueryBuilder('u')
+            ->select('u.id, u.title, u.description, u.createdAt, u.updatedAt')
+            ->setMaxResults($max)
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Tender[] Returns an array of Tender objects
     //  */
