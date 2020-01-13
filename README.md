@@ -39,7 +39,7 @@ $ symfony serve
 
 and you can open <b>https://127.0.0.1:8000</b>
 
-### if you need tender more record you can generate 4000 faker record
+##### if you need tender more record you can generate 4000 faker record
 ```bash
 $ php bin/console doctrine:fixtures:load
 ```
