@@ -25,7 +25,7 @@
                     <h5 class="card-title">[[ tender.title ]]</h5>
                     <p class="card-text">[[ tender.description ]]</p>
                     <button ng-click="editForm = !editForm">Edit</button>
-                    <a href="#" class="card-link" ng-click="Delete([[ tender.id ]])">Delete</a>
+                    <button ng-click="Delete([[ tender.id ]])">Delete</button>
                     <div class="card-body" style="width:100%" ng-show="editForm">
                         <div>
                             <input type="text" ng-value="tender.title" ng-model="title" style="margin-bottom: 10px" /><br/>

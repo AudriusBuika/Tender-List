@@ -15,21 +15,25 @@ class TenderController extends AbstractController
      */
     public function index()
     {
-        return $this->render('tender/tender.html.twig', [
-        ]);
+        return $this->render('tender/tender.html.twig', []);
     }
 
     /**
      * Get tender record list
      * 
-     * @Route("/list", methods={"GET"})
+     * @Route("/list/{limit}", methods={"GET"})
      */
-    public function list()
+    public function list(int $limit)
     {
         $response = new JsonResponse();
+        $response->headers->set('Content-Type', 'application/json');
         $doctrine = $this->getDoctrine();
 
-        $tender = $doctrine->getRepository(Tender::class)->findTenders(20);
+        if($limit >= 100) {
+            $limit = 100;
+        }
+
+        $tender = $doctrine->getRepository(Tender::class)->findTenders($limit);
 
         return $response->setData([
                 'success' => 1,
@@ -45,12 +49,12 @@ class TenderController extends AbstractController
     public function create(Request $request)
     {
         $response = new JsonResponse();
+        $response->headers->set('Content-Type', 'application/json');
         $doctrine = $this->getDoctrine();
         $entityManager = $doctrine->getManager();
 
         $postData = json_decode($request->getContent());
 
-        
         $tender = new Tender();
 
         $tender->setTitle($postData->title);
@@ -66,37 +70,36 @@ class TenderController extends AbstractController
     }
     
     /**
-     * Update edit tender record 
+     * Update edit tender record
      * 
      * @Route("/update/{id}", methods={"POST"})
      */
     public function update(Request $request, int $id)
     {
         $response = new JsonResponse();
+        $response->headers->set('Content-Type', 'application/json');
+        $postData = json_decode($request->getContent());
         $doctrine = $this->getDoctrine();
         $entityManager = $doctrine->getManager();
 
         $tender = $doctrine->getRepository(Tender::class)->find($id);
 
+        // not found tender record
         if(!$tender) {
             return $response->setData([
                 'success' => 0
             ]);
         }
 
-        $postData = json_decode($request->getContent());
+        $tender->setTitle($postData->title);
+        $tender->setDescription($postData->description);
+        $tender->updatedTimestamps();
 
-        // $tender->setTitle($request->title);
-        // $tender->setDescription($request->description);
-
-        // $entityManager->update($tender);
-        // $entityManager->flush();
+        $entityManager->persist($tender);
+        $entityManager->flush();
 
         return $response->setData([
             'success' => 1,
-            'ok' => $request->query->get('title'),
-            'o1k' => $request->query->get('description'),
-            'bbbbb' => json_decode($request->getContent())
         ]);
     }
 
@@ -108,11 +111,13 @@ class TenderController extends AbstractController
     public function delete(int $id)
     {
         $response = new JsonResponse();
+        $response->headers->set('Content-Type', 'application/json');
         $doctrine = $this->getDoctrine();
         $entityManager = $doctrine->getManager();
 
         $tender = $doctrine->getRepository(Tender::class)->find($id);
 
+        // not found tender record
         if(!$tender) {
             return $response->setData([
                 'success' => 0
@@ -126,5 +131,4 @@ class TenderController extends AbstractController
             'success' => 1
         ]);
     }
-
 }

@@ -19,10 +19,9 @@ app.controller("tenderListController", ["$scope","$http","$log", function($scope
     var loadData = function() {
         $http({
             method: 'GET',
-            url: '/list'
+            url: '/list/50'
         }).then(successCallBack, failureCallBack);
     };
-
     loadData(); // load data
     
     // Delete record function
@@ -35,8 +34,30 @@ app.controller("tenderListController", ["$scope","$http","$log", function($scope
         });
     };
 
+    // update tender record
     $scope.Update = function(id) {
         
+        var data = {
+            title: $scope.title,
+            description: 'sdfsdf',
+        };
+
+        $http.post('/update/'+id, JSON.stringify(data)).then(function (response) {
+            loadData();
+        }, function (response) {});
     }
+
+    // create tender record
+    $scope.Create = function() {
     
+        var data = {
+            title: $scope.createTitle,
+            description: $scope.createDescription,
+        };
+
+        $http.post('/create', JSON.stringify(data)).then(function (response) {
+            loadData();
+        }, function (response) {});
+    }
+
 }]);
