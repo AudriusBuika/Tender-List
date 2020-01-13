@@ -27,6 +27,7 @@ class TenderRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('u')
             ->select('u.id, u.title, u.description, u.createdAt, u.updatedAt')
+            ->orderBy('u.createdAt', 'DESC')
             ->setMaxResults($max)
             ->getQuery()
             ->getResult();
